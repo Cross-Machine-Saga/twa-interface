@@ -57,7 +57,7 @@ code {
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: oklch(90.827% 0.15537 96.347);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -125,10 +125,26 @@ code {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+  *,
+  *::before,
+  *::after {
+    @apply border-border outline-ring/50 select-none;
+  }
+
+  /* Ещё и картинки защитим от перетаскивания/выделения */
+  img,
+  svg {
+    @apply select-none;
+    -webkit-user-drag: none;
+    user-drag: none;
+    user-select: none;
   }
   body {
     @apply bg-background text-foreground;
   }
+}
+
+::view-transition-old(root), ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
 }
