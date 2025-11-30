@@ -8,6 +8,7 @@ export enum Page {
     Penalty = '/penalty',
     Donate = '/donate',
     Statistics = '/statistics',
+    Raffles = '/raffles',
     ErrorAuth = '/auth-error',
     Error404 = '/not-found'
 }

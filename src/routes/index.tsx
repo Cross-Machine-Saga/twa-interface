@@ -37,6 +37,14 @@ function App() {
           mode="инфо"
           description="Статистика по участникам"
         />
+        <CardLink
+          linkTo={Page.Raffles}
+          lottieUrl="https://lottie.host/0d9fccc8-887a-4716-9c6f-0b1cb1b6dc19/yqiDHNMSdf.lottie"
+          title="Розогрыши"
+          subtitle="участвуй"
+          mode="доп. игры"
+          description="Крутые розогрыши"
+        />
       </div>
     </PageLayout>
   )
