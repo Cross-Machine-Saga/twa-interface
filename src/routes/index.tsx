@@ -45,6 +45,22 @@ function App() {
           mode="поддержка"
           description="На развитие проекта"
         />
+        <CardLink
+          linkTo={Page.Donate}
+          lottieUrl="https://lottie.host/541be56e-d87d-4171-a21c-08d263b3ddec/nETa8dWKkG.lottie"
+          title="Реклама"
+          subtitle="бесплатно"
+          mode="не надо платить"
+          description="Посмотри бесплатно"
+        />
+        <CardLink
+          linkTo={Page.Donate}
+          lottieUrl="https://lottie.host/6838f3bf-01ab-4379-96a3-7af625e0571d/iKw0w0qOPX.lottie"
+          title="Поделиться"
+          subtitle="Распространяй"
+          mode="друзья"
+          description="Поделиться с друзьями"
+        />
       </div>
     </PageLayout>
   )
