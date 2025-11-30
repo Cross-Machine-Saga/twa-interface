@@ -22,14 +22,6 @@ function App() {
           description="Запустить задания"
         />
         <CardLink
-          linkTo={Page.Donate}
-          lottieUrl="https://lottie.host/143a2c0d-1a44-4d70-8659-e34da2b70771/PbOE4mMaDz.lottie"
-          title="Поддержать"
-          subtitle="донат"
-          mode="поддержка"
-          description="На развитие проекта"
-        />
-        <CardLink
           linkTo={Page.Statistics}
           lottieUrl="https://lottie.host/67c4aa47-f19a-428c-bfc5-cc2a1f96da01/hQ7AfUdy8W.lottie"
           title="Статистика"
@@ -44,6 +36,14 @@ function App() {
           subtitle="участвуй"
           mode="доп. игры"
           description="Крутые розогрыши"
+        />
+        <CardLink
+          linkTo={Page.Donate}
+          lottieUrl="https://lottie.host/143a2c0d-1a44-4d70-8659-e34da2b70771/PbOE4mMaDz.lottie"
+          title="Поддержать"
+          subtitle="донат"
+          mode="поддержка"
+          description="На развитие проекта"
         />
       </div>
     </PageLayout>
