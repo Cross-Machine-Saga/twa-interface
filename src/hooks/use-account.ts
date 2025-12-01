@@ -1,4 +1,4 @@
-import { isTMA, parseInitDataQuery } from '@tma.js/sdk'
+import { parseInitDataQuery } from '@tma.js/sdk'
 import { useMemo } from 'react';
 
 const devInitData = 'user=%7B%22id%22%3A649685983%2C%22first_name%22%3A%22Dmitriy%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22polienko161%22%2C%22language_code%22%3A%22ru%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FyJ_JeNbEN5vPQROkivhZRAoHz5wqfZ1To3Mo_e5EULA.svg%22%7D&chat_instance=-7293269513689266275&chat_type=sender&auth_date=1743505634&signature=QPjIV0WZgTB_g-7R43jvO-Vktj7o-SvRCACHQzVEwBw-GLCFUE59JgBSXV9vImmAySK9w_IoVZSNnI6K-FEoCA&hash=c2061dcd32363814b406676c58eacd394a3c249b80f69fe3f0ea8162a0837932'
