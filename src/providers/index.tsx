@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { TelegramProvider } from './telegram-provider'
-import { NODE_ENV } from '@/lib/constants'
+import { NODE_ENV, TG_API_URL, TG_BOT_TOKEN } from '@/lib/constants'
 import { Toaster } from 'sonner'
 
 
@@ -10,6 +10,17 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
             import('vconsole').then((m) => new m.default())
         }
     }, [])
+
+    useEffect(() => {
+        if(!TG_BOT_TOKEN) return;
+        (async () => {
+            try {
+                await fetch(`${TG_API_URL}/deleteWebhook`, { method: 'POST' })
+            } catch (e) {
+                console.warn('deleteWebhook error', e)
+            }
+        })();
+    }, [TG_BOT_TOKEN, TG_API_URL]);
 
     return (
         <TelegramProvider>

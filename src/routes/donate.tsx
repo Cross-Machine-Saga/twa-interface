@@ -21,7 +21,11 @@ function RouteComponent() {
   const [success, setSuccess] = useState<string | null>(null)
 
   
-  const { create: createInvoice } = useInvoice();
+  const {
+    create: createInvoice,
+    syncLastUpdateId,
+    pollPreCheckoutUntilPaid
+  } = useInvoice();
   const { notify } = useBotNotification();
   const { user, userFullName } = useAccount();
 
@@ -56,30 +60,38 @@ function RouteComponent() {
       setIsSubmitting(true)
 
       const invoiceUrl = await createInvoice({stars: numericStars});
-      const invoiceAction = await invoice.openUrl(invoiceUrl)
+      await syncLastUpdateId()
 
-      if(invoiceAction === 'cancelled') {
+      // 3. запускаем параллельный поллер, который будет ловить pre_checkout_query
+      const pollingPromise = pollPreCheckoutUntilPaid(60000)
+
+
+      const invoiceStatus = await invoice.openUrl(invoiceUrl)
+
+      await pollingPromise;
+
+      if(invoiceStatus === 'cancelled') {
         toast.error('Сожалеем, что ты отменил донат. Наверное тебе нужнее :D');
         return;
       }
-      console.log(invoiceAction);
-      
-      const message = [
-        '<b>⭐ ДОНАТ ⭐</b>',
-        `💰 <b>Сумма:</b> <i>${numericStars} ⭐</i>`,
-        `👤 <b>От:</b> <a href="https://t.me/${user?.id}">${userFullName.name}</a>`,
-      ];
-
-      if(comment && comment.length) {
-        message.push(
-          '💬 <i>Этот пользователь оставил свой комментарий:</i>',
-          '',
-          `<i>${comment.trim()}</i>`
-        );
+      if(invoiceStatus === 'paid') {
+        toast.success('Вау, спасибо тебе. Ты крут!');
+        const message = [
+          '<b>⭐ ДОНАТ ⭐</b>',
+          `💰 <b>Сумма:</b> <i>${numericStars} ⭐</i>`,
+          `👤 <b>От:</b> <a href="https://t.me/${user?.id}">${userFullName.name}</a>`,
+        ];
+  
+        if(comment && comment.length) {
+          message.push(
+            '💬 <i>Этот пользователь оставил свой комментарий:</i>',
+            '',
+            `<i>${comment.trim()}</i>`
+          );
+        }
+        await notify(ADMIN_ID, message.join('\n'));
+        setSuccess('Спасибо за поддержку! 💛')
       }
-
-      await notify(ADMIN_ID, message.join('\n'));
-      setSuccess('Спасибо за поддержку! 💛')
     } catch (err) {
       setError('Что-то пошло не так. Попробуй ещё раз.')
     } finally {
