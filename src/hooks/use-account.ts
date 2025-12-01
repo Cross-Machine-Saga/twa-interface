@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { parseInitDataQuery, initData, isTMA } from '@tma.js/sdk'
 import { NODE_ENV } from '@/lib/constants';
 
@@ -12,7 +12,7 @@ export function useAccount() {
     if(isTMA()) {
         initData.restore();
     }
-    
+
     const id = useMemo(() => {
         const rawInitData = initData.raw();
         if(isTMA() && rawInitData) {
