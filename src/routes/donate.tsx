@@ -1,19 +1,29 @@
 import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { PageLayout } from '@/components/ui/page-layout'
+import { invoice } from '@tma.js/sdk';
+import { useInvoice } from '@/hooks/use-invoice';
+import { toast } from 'sonner';
+import { useBotNotification } from '@/hooks/use-bot-notification';
+import { useAccount } from '@/hooks/use-account';
+import { ADMIN_ID } from '@/lib/constants';
 
 export const Route = createFileRoute('/donate')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const maxCommentLength = 500
   const [starsAmount, setStarsAmount] = useState<string>('')
   const [comment, setComment] = useState<string>('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
 
-  const maxCommentLength = 500
+  
+  const { create: createInvoice } = useInvoice();
+  const { notify } = useBotNotification();
+  const { user, userFullName } = useAccount();
 
   const handleCommentChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
@@ -35,7 +45,7 @@ function RouteComponent() {
     setError(null)
     setSuccess(null)
 
-    const numericStars = Number(starsAmount.replace(/\s/g, ''))
+    const numericStars = parseInt(starsAmount.replace(/\s/g, ''))
 
     if (!numericStars || numericStars <= 0) {
       setError('Укажи количество звёзд больше нуля.')
@@ -45,12 +55,31 @@ function RouteComponent() {
     try {
       setIsSubmitting(true)
 
-      // TODO: здесь вызываешь реальный Telegram Stars flow
-      // например, через window.Telegram.WebApp.openInvoice(...) или свой бек
-      await new Promise((resolve) => setTimeout(resolve, 600)) // заглушка
+      const invoiceUrl = await createInvoice({stars: numericStars});
+      const invoiceAction = await invoice.openUrl(invoiceUrl)
 
+      if(invoiceAction === 'cancelled') {
+        toast.error('Сожалеем, что ты отменил донат. Наверное тебе нужнее :D');
+        return;
+      }
+      console.log(invoiceAction);
+      
+      const message = [
+        '<b>⭐ ДОНАТ ⭐</b>',
+        `💰 <b>Сумма:</b> <i>${numericStars} ⭐</i>`,
+        `👤 <b>От:</b> <a href="https://t.me/${user?.id}">${userFullName.name}</a>`,
+      ];
+
+      if(comment && comment.length) {
+        message.push(
+          '💬 <i>Этот пользователь оставил свой комментарий:</i>',
+          '',
+          `<i>${comment.trim()}</i>`
+        );
+      }
+
+      await notify(ADMIN_ID, message.join('\n'));
       setSuccess('Спасибо за поддержку! 💛')
-      // по желанию можешь отправить comment и starsAmount на сервер здесь
     } catch (err) {
       setError('Что-то пошло не так. Попробуй ещё раз.')
     } finally {

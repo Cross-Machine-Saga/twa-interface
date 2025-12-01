@@ -6,6 +6,7 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { ADS_GRAM_UNIT_ID, Page, TELEGRAM_APP_URL } from '@/lib/constants'
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
 // import logo from '../logo.svg'
 
 export const Route = createFileRoute(Page.Home)({
@@ -22,7 +23,7 @@ function App() {
 
 
   return (
-    <PageLayout className="flex flex-col items-center mt-[140px] px-4">
+    <PageLayout className="flex flex-col items-center mt-10 px-4 sm:mt-20">
       <div className="grid w-full grid-cols-2 sm:grid-cols-3 gap-3">
         <CardLink
           linkTo={Page.Roulette}
@@ -139,11 +140,11 @@ function CardLink({
     );
   }
   return (
-    <button
-      className={cn("group relative flex aspect-square flex-col justify-between rounded-3xl bg-[#1f1f1f] p-3 text-white transition-transform duration-150 hover:bg-[#252525]", className)}
+    <Button
+      className={cn("group relative aspect-square flex-col justify-between rounded-3xl bg-[#1f1f1f] p-3 text-white transition-transform duration-150 hover:bg-[#252525] text-left h-fit block", className)}
       onClick={onClick}
     >
       {contentChildren}
-    </button>
+    </Button>
   );
 }

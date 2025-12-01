@@ -22,4 +22,9 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    allowedHosts: [
+      "bone-particular-reflections-immigrants.trycloudflare.com",
+    ]
+  }
 })

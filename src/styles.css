@@ -140,7 +140,10 @@ code {
     user-select: none;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overscroll-none;
+  }
+  html {
+    @apply overscroll-none;
   }
 }
 
