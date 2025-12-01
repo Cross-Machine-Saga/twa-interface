@@ -57,7 +57,6 @@ function App() {
           description="На развитие проекта"
         />
         <CardLink
-          linkTo={Page.Donate}
           lottieUrl="https://lottie.host/541be56e-d87d-4171-a21c-08d263b3ddec/nETa8dWKkG.lottie"
           title="Реклама"
           subtitle="бесплатно"
