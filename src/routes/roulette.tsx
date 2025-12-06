@@ -7,14 +7,12 @@ import { RouletteWheel } from '@/components/wheel-roulette';
 import { formatLocalDate, getMsUntilNextMidnight } from "@/helpers";
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
 
@@ -25,7 +23,7 @@ export const Route = createFileRoute(Page.Roulette)({
 const level = 'easy';
 const STORAGE_KEY = "csm-task-storage";
 
-const fetchEmbroideryTasks = async (level: string = 'easy') => {
+const fetchEmbroideryTasks = async (_: string = 'easy') => {
     // Get cached data
     const cached = window.localStorage.getItem(STORAGE_KEY);
     if (cached) {
