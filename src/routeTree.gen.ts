@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RouletteRouteImport } from './routes/roulette'
 import { Route as DonateRouteImport } from './routes/donate'
 import { Route as AuthErrorRouteImport } from './routes/auth-error'
 import { Route as IndexRouteImport } from './routes/index'
 
+const RouletteRoute = RouletteRouteImport.update({
+  id: '/roulette',
+  path: '/roulette',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DonateRoute = DonateRouteImport.update({
   id: '/donate',
   path: '/donate',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth-error': typeof AuthErrorRoute
   '/donate': typeof DonateRoute
+  '/roulette': typeof RouletteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth-error': typeof AuthErrorRoute
   '/donate': typeof DonateRoute
+  '/roulette': typeof RouletteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth-error': typeof AuthErrorRoute
   '/donate': typeof DonateRoute
+  '/roulette': typeof RouletteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth-error' | '/donate'
+  fullPaths: '/' | '/auth-error' | '/donate' | '/roulette'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth-error' | '/donate'
-  id: '__root__' | '/' | '/auth-error' | '/donate'
+  to: '/' | '/auth-error' | '/donate' | '/roulette'
+  id: '__root__' | '/' | '/auth-error' | '/donate' | '/roulette'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthErrorRoute: typeof AuthErrorRoute
   DonateRoute: typeof DonateRoute
+  RouletteRoute: typeof RouletteRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/roulette': {
+      id: '/roulette'
+      path: '/roulette'
+      fullPath: '/roulette'
+      preLoaderRoute: typeof RouletteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/donate': {
       id: '/donate'
       path: '/donate'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthErrorRoute: AuthErrorRoute,
   DonateRoute: DonateRoute,
+  RouletteRoute: RouletteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { TelegramProvider } from './telegram-provider'
 import { NODE_ENV, TG_API_URL, TG_BOT_TOKEN } from '@/lib/constants'
 import { Toaster } from 'sonner'
+import { ReactQueryProvider } from './query-provider'
 
 
 export const Provider = ({ children }: { children: React.ReactNode }) => {
@@ -12,7 +13,7 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
     }, [])
 
     useEffect(() => {
-        if(!TG_BOT_TOKEN) return;
+        if (!TG_BOT_TOKEN) return;
         (async () => {
             try {
                 await fetch(`${TG_API_URL}/deleteWebhook`, { method: 'POST' })
@@ -23,18 +24,20 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
     }, [TG_BOT_TOKEN, TG_API_URL]);
 
     return (
-        <TelegramProvider>
-            {children}
-            <Toaster
-                className="mt-20!"
-                position="top-center"
-                toastOptions={{
-                className:
-                    '!font-inter !text-[#FFFFFF] !font-[400] !leading-[20px] !text-[16px] !border !rounded-[12px] !p-4 !border-foreground/40 !bg-background',
-                }}
-                duration={5000}
-                invert={true}
-            />
-        </TelegramProvider>
+        <ReactQueryProvider>
+            <TelegramProvider>
+                {children}
+                <Toaster
+                    className="mt-20!"
+                    position="top-center"
+                    toastOptions={{
+                        className:
+                            '!font-inter !text-[#FFFFFF] !font-[400] !leading-[20px] !text-[16px] !border !rounded-[12px] !p-4 !border-foreground/40 !bg-background',
+                    }}
+                    duration={5000}
+                    invert={true}
+                />
+            </TelegramProvider>
+        </ReactQueryProvider>
     )
 }
